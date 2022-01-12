@@ -7,25 +7,36 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class ApplyGiftsStrategy {
-
-    public ArrayList<Child> applyStrategy(final ArrayList<Child> initialList, String strategy, Santa santa) {
+    /**
+     * Metoda care aplica strategia de asignare a cadourilor.
+     * Mai intai, se creeaza strategia, iar in functie de tipul ei,
+     * se va apela metoda "assignGifts" din clasa corespunzatoare.
+     * Dupa ce se va face acest lucru, listele de copii vor fi
+     * sortate inapoi in mod crescator dupa id, iar noua lista
+     * va fi intoarsa de catre metoda.
+     * @param initialList
+     *      lista initiala de copii
+     * @param strategy
+     *      strategia
+     * @param santa
+     *      Mos Craciun
+     * @return
+     *      lista actualizata de copii
+     */
+    public ArrayList<Child> applyStrategy(final ArrayList<Child> initialList,
+                                          final String strategy, final Santa santa) {
 
         ArrayList<Child> updatedList = new ArrayList<Child>();
-
-        //CREAM STRATEGIA
         AssignGiftsStrategy assignGiftsStrategy = GiftsStrategyFactory.createStrategy(strategy);
-        //APLICAM STRATEGIA DE ASIGNARE A CADOURILOR
         assignGiftsStrategy.assignGifts(initialList, santa);
 
-        //SORTAM INAPOI LISTA DUPA ID
         initialList.sort(new Comparator<Child>() {
             @Override
-            public int compare(Child o1, Child o2) {
+            public int compare(final Child o1, final Child o2) {
                 return Integer.compare(o1.getId(), o2.getId());
             }
         });
 
-        //ADAUGAM ELEMENTELE IN NOUA LISTA PE CARE O VOM INTOARCE
         for (int i = 0; i < initialList.size(); i++) {
             updatedList.add(new Child(initialList.get(i)));
         }

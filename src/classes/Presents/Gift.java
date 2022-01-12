@@ -82,10 +82,22 @@ public class Gift {
         this.category = category;
     }
 
+    /**
+     * Metoda prin care se acceseaza "quantity".
+     * Nu este getter pentru a nu fi serializat de catre
+     * metoda de scriere in fisier.
+     * @return
+     *      cate cadouri de acelasi fel au ramas
+     */
     public Integer accessQuantity() {
         return quantity;
     }
 
+    /**
+     * Setter pentru "quantity"
+     * @param quantity
+     *      cate cadouri de acelasi fel au ramas
+     */
     public void setQuantity(final Integer quantity) {
         this.quantity = quantity;
     }

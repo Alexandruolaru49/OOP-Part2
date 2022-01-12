@@ -79,6 +79,11 @@ public final class Initialize {
      * setate: bugetul asignat, cadourile primite, iar scorul curent de
      * cumintenie va fi salvat in istoricul de scoruri de cumintenie.
      * Aceasta metoda este folosita pentru calcularea listei de copii din anul 0.
+     * Se va aplica scorul bonus de cumintenie pentru fiecare copil, se va actualiza
+     * bugetul copiilor cu ajutorul elfilor "black", "pink" si "white", prin intermediul
+     * design pattern-ului "Visitor". Dupa aceea, cadourile vor fi asignate dupa id,
+     * iar la final, se vor face modificari in unele cazuri la cadouri,
+     * daca elful copiilor este cel "yellow".
      * @param santa
      *      Mos Craciun
      * @param input
@@ -93,18 +98,16 @@ public final class Initialize {
 
         updatedList = objApplyStrategy.applyStrategy(initialList);
 
-        //APLIC NICE SCORE BONUS PT FIECARE COPIL DOAR LA RUNDA 0:
         for (int i = 0; i < updatedList.size(); i++) {
             Child child = updatedList.get(i);
             Double score = child.getAverageScore();
-            updatedList.get(i).setAverageScore(score + score * child.accessNiceScoreBonus() / 100);
-            if (updatedList.get(i).getAverageScore() > 10d) {
-                updatedList.get(i).setAverageScore(10d);
+            updatedList.get(i).setAverageScore(score + score * child.accessNiceScoreBonus()
+                    / Constants.ONE_HUNDRED);
+            if (updatedList.get(i).getAverageScore() > Constants.MAX_AVERAGE_SCORE) {
+                updatedList.get(i).setAverageScore(Constants.MAX_AVERAGE_SCORE);
             }
         }
-        //!!
 
-        //SORTAM IN FUNCTIE DE STRATEGIA DE ASIGNARE A CADOURILOR - AICI ID
         updatedList.sort(new Comparator<Child>() {
             @Override
             public int compare(final Child o1, final Child o2) {
@@ -117,20 +120,14 @@ public final class Initialize {
             Child child = updatedList.get(i);
             child.calculateAssignedBudget(santa, updatedList);
 
-            //AICI APLICAM ELFII PT BUGET --DESIGN PATTERN VISITOR
             ElfFactory elfFactory = new ElfFactory();
-            //System.out.println(child.accessElf());
-            //System.out.println(child.toString());
-            Elf elf = elfFactory.createElf(child.accessElf()); //creez elf in functie de tipul elfului pe care il are copilul
-            //elf.updateBudget(child); --> tipul de elf o sa apeleze metoda pentru tipul de child. (visitor)
+            Elf elf = elfFactory.createElf(child.accessElf());
+
             if (!child.accessElf().equals(Constants.YELLOW)) {
                 elf.updateBudget(child);
             }
 
-            //AICI TREBUIE SA FAC MODIFICARI LA IMPARTIREA CADOURILOR - DUPA ID.
-            // - se va face normal, apeland metoda din Child.
             child.calculateReceivedGifts(santa);
-            //AICI TREBUIE SA APLIC ELFUL YELLOW
 
             if (child.accessElf().equals(Constants.YELLOW)) {
                 elf.assignGifts(child, santa);
@@ -148,7 +145,11 @@ public final class Initialize {
      * actualizat noul buget al lui Mos Craciun, sunt adaugate cadourile noi,
      * sunt actualizate scorurile de cumintenie si preferintele copiilor,
      * am aplicat strategia si am setat bugetul si cadourile primite pentru
-     * copii.
+     * copii. Este adaugat scorul bonus de cumintenie pentru fiecare copil,
+     * utilizez design pattern-ul "Visitor" pentru elfii ce se ocupa de
+     * schimbarile bugetului copiilor, aplic strategia de asignarea a
+     * cadourilor si, in cele din urma, aplic functionalitatea elfului
+     * "yellow" acolo unde este cazul.
      * @param childrenList
      *      lista de copii din anul trecut
      * @param santa
@@ -190,40 +191,31 @@ public final class Initialize {
         updatedList = objApplyStrategy.applyStrategy(newChildrenList);
         updates.removeOver18(updatedList);
 
-        //APLIC NICE SCORE BONUS PT FIECARE COPIL:
         for (int i = 0; i < updatedList.size(); i++) {
             Child child = updatedList.get(i);
             Double score = child.getAverageScore();
-            updatedList.get(i).setAverageScore(score + score * child.accessNiceScoreBonus() / 100);
-            if (updatedList.get(i).getAverageScore() > 10d) {
-                updatedList.get(i).setAverageScore(10d);
+            updatedList.get(i).setAverageScore(score + score * child.accessNiceScoreBonus()
+                    / Constants.ONE_HUNDRED);
+            if (updatedList.get(i).getAverageScore() > Constants.MAX_AVERAGE_SCORE) {
+                updatedList.get(i).setAverageScore(Constants.MAX_AVERAGE_SCORE);
             }
         }
-        //!!
 
         for (int i = 0; i < updatedList.size(); i++) {
             Child child = updatedList.get(i);
             child.calculateAssignedBudget(santa, updatedList);
 
-            //AICI APLICAM ELFII PT BUGET
             ElfFactory elfFactory = new ElfFactory();
-            //System.out.println(child.accessElf());
-            //System.out.println(child.toString());
-            Elf elf = elfFactory.createElf(child.accessElf()); //creez elf in functie de tipul elfului pe care il are copilul
-            //elf.updateBudget(child); --> tipul de elf o sa apeleze metoda pentru tipul de child. (visitor)
+            Elf elf = elfFactory.createElf(child.accessElf());
+
             if (!child.accessElf().equals(Constants.YELLOW)) {
                 elf.updateBudget(child);
             }
         }
 
-
-            //AICI TREBUIE SA FAC MODIFICARI LA IMPARTIREA CADOURILOR- IN FUNCTIE DE STRATEGY.
-            //child.calculateReceivedGifts(santa);
         ApplyGiftsStrategy applyGiftsStrategy = new ApplyGiftsStrategy();
 
         updatedList = applyGiftsStrategy.applyStrategy(updatedList, changes.getStrategy(), santa);
-
-            //AICI TREBUIE SA APLIC ELFUL YELLOW
 
         for (int i = 0; i < updatedList.size(); i++) {
             Child child = updatedList.get(i);
@@ -234,7 +226,6 @@ public final class Initialize {
                 elf.assignGifts(child, santa);
             }
         }
-
 
         return updatedList;
     }

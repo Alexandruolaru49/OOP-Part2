@@ -8,15 +8,26 @@ import enums.Category;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class NiceScoreAssignation implements AssignGiftsStrategy{
-
+public class NiceScoreAssignation implements AssignGiftsStrategy {
+    /**
+     * Metoda care asigneaza cadourile copiilor dupa strategia "niceScore".
+     * Astfel, se sorteaza lista de copii crescator dupa averageScore, se
+     * copiaza lista de cadouri a Mosului care se sorteaza crescator
+     * dupa pret, iar apoi se distribuie cadourile: pentru fiecare
+     * copil din lista de cauta in lista Mosului cadoul cel mai ieftin
+     * care face parte din categoria dorita a copilului si se asigneaza
+     * daca bugetul sau permite si daca cantitatea cadoului este nenula.
+     * @param children
+     *      lista de copii
+     * @param santa
+     *      Mos Craciun
+     */
     @Override
-    public void assignGifts(ArrayList<Child> children, Santa santa) {
+    public void assignGifts(final ArrayList<Child> children, final Santa santa) {
 
-        // Mai intai sortam lista de copii dupa AverageScore
         children.sort(new Comparator<Child>() {
             @Override
-            public int compare(Child o1, Child o2) {
+            public int compare(final Child o1, final Child o2) {
                 if (o1.getAverageScore().equals(o2.getAverageScore())) {
                     return Integer.compare(o1.getId(), o2.getId());
                 } else {
@@ -25,13 +36,11 @@ public class NiceScoreAssignation implements AssignGiftsStrategy{
             }
         });
 
-        // Cream o lista noua de cadouri identica cu lista mosului de cadouri.
         ArrayList<Gift> gifts = new ArrayList<Gift>();
         for (int i = 0; i < santa.getSantaGiftsList().size(); i++) {
             gifts.add(new Gift(santa.getSantaGiftsList().get(i)));
         }
 
-        // Sortam lista de cadouri crescator dupa pret.
         gifts.sort(new Comparator<Gift>() {
             @Override
             public int compare(final Gift o1, final Gift o2) {
@@ -45,14 +54,12 @@ public class NiceScoreAssignation implements AssignGiftsStrategy{
 
             for (Category category : child.getGiftsPreferences()) {
                 for (int i = 0; i < gifts.size(); i++) {
-                    if (gifts.get(i).getCategory().equals(category) && gifts.get(i).accessQuantity() > 0) { // am schimbat aici
+                    if (gifts.get(i).getCategory().equals(category)
+                            && gifts.get(i).accessQuantity() > 0) {
                         if (budget >= gifts.get(i).getPrice()) {
                             budget = budget - gifts.get(i).getPrice();
                             giftsReceived.add(new Gift(gifts.get(i)));
                             gifts.get(i).setQuantity(gifts.get(i).accessQuantity() - 1);
-//                            if (gifts.get(i).accessQuantity() == 0) {
-//                                gifts.remove(i);
-//                            }
                             break;
                         }
                     }

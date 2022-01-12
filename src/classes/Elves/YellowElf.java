@@ -7,17 +7,28 @@ import classes.SantaClaus.Santa;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class YellowElf extends Elf{
+public class YellowElf extends Elf {
+    /**
+     * Metoda care o suprascrie pe cea din clasa parinte si care
+     * ofera copiilor care nu au primit niciun cadou unul, daca sunt
+     * respectate conditiile din cerinta. Este copiata lista de cadouri
+     * a Mosului, sortata crescator dupa pret, iar apoi, daca unul din
+     * cadourile din lista sunt din aceeasi categorie cu cea preferata
+     * a copilului si cantitatea acestuia nu este nula, se ofera copilului
+     * doar daca acesta nu a primit niciun cadou. Altfel, nu se asigneaza
+     * niciun alt cadou.
+     * @param child
+     *      copil
+     * @param santa
+     *      Mos Craciun
+     */
+    public void assignGifts(final Child child, final Santa santa) {
 
-    public void assignGifts(Child child, Santa santa) {
-
-        // Cream o lista noua de cadouri identica cu lista mosului de cadouri.
         ArrayList<Gift> gifts = new ArrayList<Gift>();
         for (int i = 0; i < santa.getSantaGiftsList().size(); i++) {
             gifts.add(new Gift(santa.getSantaGiftsList().get(i)));
         }
 
-        // Sortam lista de cadouri crescator dupa pret.
         gifts.sort(new Comparator<Gift>() {
             @Override
             public int compare(final Gift o1, final Gift o2) {
@@ -32,9 +43,6 @@ public class YellowElf extends Elf{
                     if (gift.accessQuantity() > 0) {
                         child.getReceivedGifts().add(new Gift(gift));
                         gift.setQuantity(gift.accessQuantity() - 1);
-//                        if (gift.accessQuantity() == 0) {
-//                            santa.getSantaGiftsList().remove(i);
-//                        }
                     }
                     break;
                 }

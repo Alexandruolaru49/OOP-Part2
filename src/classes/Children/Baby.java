@@ -1,9 +1,4 @@
 package classes.Children;
-
-import classes.Elves.BlackElf;
-import classes.Elves.PinkElf;
-import classes.Elves.WhiteElf;
-
 public class Baby extends Child {
 
     public Baby(final Child child) {
@@ -21,29 +16,4 @@ public class Baby extends Child {
         this.setNiceScoreBonus(child.accessNiceScoreBonus());
         this.setElf(child.accessElf());
     }
-
-    /**
-     * Metoda care actuali
-     * @param blackElf
-     *      elf de tip "BlackElf"
-     */
-    @Override
-    public void updateBudget(final BlackElf blackElf) {
-        Double budget = this.getAssignedBudget();
-        budget = budget - budget * 30 / 100;
-        this.setAssignedBudget(budget);
-    }
-
-    @Override
-    public void updateBudget(final PinkElf pinkElf) {
-        Double budget = this.getAssignedBudget();
-        budget = budget + budget * 30 / 100;
-        this.setAssignedBudget(budget);
-    }
-
-    @Override
-    public void updateBudget(final WhiteElf whiteElf) {
-
-    }
-
 }

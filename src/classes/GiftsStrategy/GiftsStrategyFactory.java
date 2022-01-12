@@ -2,12 +2,20 @@ package classes.GiftsStrategy;
 
 import common.Constants;
 
-public class GiftsStrategyFactory {
+public final class GiftsStrategyFactory {
 
     private GiftsStrategyFactory() {
 
     }
 
+    /**
+     * Metoda care primeste un tip de strategie si creeaza
+     * o instanta a unei strategii in functie de tipul primit
+     * @param strategy
+     *      strategia
+     * @return
+     *      instanta a unei clase-strategie
+     */
     public static AssignGiftsStrategy createStrategy(final String strategy) {
         switch (strategy) {
             case Constants.ID:

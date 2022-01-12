@@ -5,9 +5,9 @@ import classes.SantaClaus.Santa;
 import classes.Elves.BlackElf;
 import classes.Elves.PinkElf;
 import classes.Elves.WhiteElf;
+import common.Constants;
 import enums.Category;
 import enums.Cities;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -17,15 +17,12 @@ public class Child {
     private String firstName;
     private Cities city;
     private int age;
-
     private Double niceScore;
-
     private ArrayList<Category> giftsPreferences;
     private Double averageScore;
     private ArrayList<Double> niceScoreHistory = new ArrayList<Double>();
     private Double assignedBudget;
     private ArrayList<Gift> receivedGifts = new ArrayList<Gift>();
-
     private Double niceScoreBonus = 0d;
     private String elf;
 
@@ -83,19 +80,35 @@ public class Child {
         this.setAssignedBudget(this.getAverageScore() * budgetUnit);
     }
 
-    public void updateBudget(BlackElf blackElf) {
+    /**
+     * Metoda care actualizeaza bugetul conform elfului "Black"
+     * @param blackElf
+     *      elf de tipul "Black"
+     */
+    public void updateBudget(final BlackElf blackElf) {
         Double budget = this.getAssignedBudget();
-        budget = budget - budget * 30 / 100;
+        budget = budget - budget * Constants.THIRTY / Constants.ONE_HUNDRED;
         this.setAssignedBudget(budget);
     }
 
-    public void updateBudget(PinkElf pinkElf) {
+    /**
+     * Metoda care actualizeaza bugetul conform elfului "Pink"
+     * @param pinkElf
+     *      elf de tipul "Pink"
+     */
+    public void updateBudget(final PinkElf pinkElf) {
         Double budget = this.getAssignedBudget();
-        budget = budget + budget * 30 / 100;
+        budget = budget + budget * Constants.THIRTY / Constants.ONE_HUNDRED;
         this.setAssignedBudget(budget);
     }
 
-    public void updateBudget(WhiteElf whiteElf) {
+    /**
+     * Metoda care actualizeaza bugetul conform elfului "White"
+     * (nu actualizeaza nimic)
+     * @param whiteElf
+     *      elf de tipul "White"
+     */
+    public void updateBudget(final WhiteElf whiteElf) {
 
     }
 
@@ -126,13 +139,10 @@ public class Child {
         for (Category category : this.getGiftsPreferences()) {
             for (int i = 0; i < gifts.size(); i++) {
                 if (gifts.get(i).getCategory().equals(category)) {
-                    if (budget >= gifts.get(i).getPrice() && gifts.get(i).accessQuantity() > 0) { //am schimbat aici
+                    if (budget >= gifts.get(i).getPrice() && gifts.get(i).accessQuantity() > 0) {
                         budget = budget - gifts.get(i).getPrice();
                         giftsReceived.add(new Gift(gifts.get(i)));
                         gifts.get(i).setQuantity(gifts.get(i).accessQuantity() - 1);
-//                        if (gifts.get(i).accessQuantity() == 0) {
-//                            gifts.remove(i);
-//                        }
                         break;
                     }
                 }
@@ -342,38 +352,44 @@ public class Child {
         this.receivedGifts = receivedGifts;
     }
 
+    /**
+     * Metoda prin care se acceseaza "niceScoreBonus"
+     * - nu este getter pentru a nu fi serializat de catre
+     * metoda de scriere in fisier.
+     * @return
+     *      bonusul de cumintenie
+     */
     public Double accessNiceScoreBonus() {
         return niceScoreBonus;
     }
 
+    /**
+     * Setter pentru "niceScoreBonus"
+     * @param niceScoreBonus
+     *      bonusul de cumintenie
+     */
     public void setNiceScoreBonus(final Double niceScoreBonus) {
         this.niceScoreBonus = niceScoreBonus;
     }
 
+    /**
+     * Metoda prin care se acceseaza "elf"
+     * - nu este getter pentru a nu fi serializat de catre
+     * metoda de scriere in fisier.
+     * @return
+     *      elful copilului
+     */
     public String accessElf() {
         return elf;
     }
 
+    /**
+     * Setter pentru "elf"
+     * @param elf
+     *      elful copilului
+     */
     public void setElf(final String elf) {
         this.elf = elf;
     }
 
-    @Override
-    public String toString() {
-        return "Child{" +
-                "id=" + id +
-                ", lastName='" + lastName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", city=" + city +
-                ", age=" + age +
-                ", niceScore=" + niceScore +
-                ", giftsPreferences=" + giftsPreferences +
-                ", averageScore=" + averageScore +
-                ", niceScoreHistory=" + niceScoreHistory +
-                ", assignedBudget=" + assignedBudget +
-                ", receivedGifts=" + receivedGifts +
-                ", niceScoreBonus=" + niceScoreBonus +
-                ", elf='" + elf + '\'' +
-                '}';
-    }
 }

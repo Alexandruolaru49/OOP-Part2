@@ -1,9 +1,5 @@
 package classes.Children;
 
-import classes.Elves.BlackElf;
-import classes.Elves.PinkElf;
-import classes.Elves.WhiteElf;
-
 public class Teen extends Child {
 
     public Teen(final Child child) {
@@ -20,24 +16,5 @@ public class Teen extends Child {
         this.setReceivedGifts(child.getReceivedGifts());
         this.setNiceScoreBonus(child.accessNiceScoreBonus());
         this.setElf(child.accessElf());
-    }
-
-    @Override
-    public void updateBudget(BlackElf blackElf) {
-        Double budget = this.getAssignedBudget();
-        budget = budget - budget * 30 / 100;
-        this.setAssignedBudget(budget);
-    }
-
-    @Override
-    public void updateBudget(PinkElf pinkElf) {
-        Double budget = this.getAssignedBudget();
-        budget = budget + budget * 30 / 100;
-        this.setAssignedBudget(budget);
-    }
-
-    @Override
-    public void updateBudget(WhiteElf whiteElf) {
-
     }
 }

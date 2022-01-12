@@ -36,6 +36,7 @@ public final class Constants {
     public static final String NICE_SCORE_CITY = "niceScoreCity";
     public static final Integer ONE_HUNDRED = 100;
     public static final Integer THIRTY = 30;
+    public static final Double MAX_AVERAGE_SCORE = 10d;
 
     private Constants() {
         //constructor for checkstyle

@@ -3,14 +3,15 @@ package classes.Elves;
 import common.Constants;
 
 public class ElfFactory {
-
-    //private String elfType;
-
-//    public ElfFactory(String type) {
-//        this.elfType = type;
-//    }
-
-    public Elf createElf(String elfType) {
+    /**
+     * Metoda care primeste un String ce reprezinta tipul
+     * elfului si creeaza o instanta de respectivul tip
+     * @param elfType
+     *      tipul de elf
+     * @return
+     *      instanta de elf
+     */
+    public Elf createElf(final String elfType) {
         switch (elfType) {
             case Constants.WHITE:
                 return new WhiteElf();
