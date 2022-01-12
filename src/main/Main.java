@@ -50,7 +50,7 @@ public final class Main {
         main.deleteFiles(outputDirectory.listFiles());
         int numberOfTests = Constants.TESTS_NUMBER;
         for (int i = 1; i <= numberOfTests; i++) {
-            //System.out.println("Test " + i);
+            System.out.println("Test " + i);
             String inputPath = "tests/test" + i + ".json";
             String outputPath = "output/out_" + i + ".json";
             action(inputPath, outputPath);

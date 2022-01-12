@@ -64,10 +64,20 @@ public class ChildrenUpdate {
         this.giftsPreferences = giftsPreferences;
     }
 
+    /**
+     * Getter pentru elf
+     * @return
+     *      elful copilului
+     */
     public String getElf() {
         return elf;
     }
 
+    /**
+     * Setter pentru elf
+     * @param elf
+     *      elful copilului
+     */
     public void setElf(final String elf) {
         this.elf = elf;
     }

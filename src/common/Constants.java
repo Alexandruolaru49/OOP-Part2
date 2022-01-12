@@ -34,6 +34,8 @@ public final class Constants {
     public static final String ID = "id";
     public static final String NICE_SCORE = "niceScore";
     public static final String NICE_SCORE_CITY = "niceScoreCity";
+    public static final Integer ONE_HUNDRED = 100;
+    public static final Integer THIRTY = 30;
 
     private Constants() {
         //constructor for checkstyle

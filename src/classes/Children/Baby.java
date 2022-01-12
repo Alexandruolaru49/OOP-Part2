@@ -22,22 +22,27 @@ public class Baby extends Child {
         this.setElf(child.accessElf());
     }
 
+    /**
+     * Metoda care actuali
+     * @param blackElf
+     *      elf de tip "BlackElf"
+     */
     @Override
-    public void updateBudget(BlackElf blackElf) {
+    public void updateBudget(final BlackElf blackElf) {
         Double budget = this.getAssignedBudget();
         budget = budget - budget * 30 / 100;
         this.setAssignedBudget(budget);
     }
 
     @Override
-    public void updateBudget(PinkElf pinkElf) {
+    public void updateBudget(final PinkElf pinkElf) {
         Double budget = this.getAssignedBudget();
         budget = budget + budget * 30 / 100;
         this.setAssignedBudget(budget);
     }
 
     @Override
-    public void updateBudget(WhiteElf whiteElf) {
+    public void updateBudget(final WhiteElf whiteElf) {
 
     }
 

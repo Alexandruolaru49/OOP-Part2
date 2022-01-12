@@ -126,19 +126,20 @@ public class Child {
         for (Category category : this.getGiftsPreferences()) {
             for (int i = 0; i < gifts.size(); i++) {
                 if (gifts.get(i).getCategory().equals(category)) {
-                    if (budget > gifts.get(i).getPrice()) {
+                    if (budget >= gifts.get(i).getPrice() && gifts.get(i).accessQuantity() > 0) { //am schimbat aici
                         budget = budget - gifts.get(i).getPrice();
                         giftsReceived.add(new Gift(gifts.get(i)));
                         gifts.get(i).setQuantity(gifts.get(i).accessQuantity() - 1);
-                        if (gifts.get(i).accessQuantity() == 0) {
-                            gifts.remove(i);
-                        }
+//                        if (gifts.get(i).accessQuantity() == 0) {
+//                            gifts.remove(i);
+//                        }
                         break;
                     }
                 }
             }
         }
         this.setReceivedGifts(giftsReceived);
+        santa.setSantaGiftsList(gifts);
     }
 
     /**

@@ -3,6 +3,7 @@ package simulation;
 import classes.Changes.AnnualChanges;
 import classes.Changes.ChildrenUpdate;
 import classes.Children.Child;
+import classes.GiftsStrategy.ApplyGiftsStrategy;
 import classes.Presents.Gift;
 import classes.SantaClaus.Santa;
 import classes.AverageScoreStrategies.ApplyStrategy;
@@ -97,6 +98,9 @@ public final class Initialize {
             Child child = updatedList.get(i);
             Double score = child.getAverageScore();
             updatedList.get(i).setAverageScore(score + score * child.accessNiceScoreBonus() / 100);
+            if (updatedList.get(i).getAverageScore() > 10d) {
+                updatedList.get(i).setAverageScore(10d);
+            }
         }
         //!!
 
@@ -124,9 +128,13 @@ public final class Initialize {
             }
 
             //AICI TREBUIE SA FAC MODIFICARI LA IMPARTIREA CADOURILOR - DUPA ID.
+            // - se va face normal, apeland metoda din Child.
             child.calculateReceivedGifts(santa);
             //AICI TREBUIE SA APLIC ELFUL YELLOW
 
+            if (child.accessElf().equals(Constants.YELLOW)) {
+                elf.assignGifts(child, santa);
+            }
 
             child.getNiceScoreHistory().add(child.accessNiceScore());
         }
@@ -182,6 +190,17 @@ public final class Initialize {
         updatedList = objApplyStrategy.applyStrategy(newChildrenList);
         updates.removeOver18(updatedList);
 
+        //APLIC NICE SCORE BONUS PT FIECARE COPIL:
+        for (int i = 0; i < updatedList.size(); i++) {
+            Child child = updatedList.get(i);
+            Double score = child.getAverageScore();
+            updatedList.get(i).setAverageScore(score + score * child.accessNiceScoreBonus() / 100);
+            if (updatedList.get(i).getAverageScore() > 10d) {
+                updatedList.get(i).setAverageScore(10d);
+            }
+        }
+        //!!
+
         for (int i = 0; i < updatedList.size(); i++) {
             Child child = updatedList.get(i);
             child.calculateAssignedBudget(santa, updatedList);
@@ -195,14 +214,27 @@ public final class Initialize {
             if (!child.accessElf().equals(Constants.YELLOW)) {
                 elf.updateBudget(child);
             }
+        }
+
 
             //AICI TREBUIE SA FAC MODIFICARI LA IMPARTIREA CADOURILOR- IN FUNCTIE DE STRATEGY.
-            child.calculateReceivedGifts(santa);
+            //child.calculateReceivedGifts(santa);
+        ApplyGiftsStrategy applyGiftsStrategy = new ApplyGiftsStrategy();
 
+        updatedList = applyGiftsStrategy.applyStrategy(updatedList, changes.getStrategy(), santa);
 
             //AICI TREBUIE SA APLIC ELFUL YELLOW
 
+        for (int i = 0; i < updatedList.size(); i++) {
+            Child child = updatedList.get(i);
+            ElfFactory elfFactory = new ElfFactory();
+            Elf elf = elfFactory.createElf(child.accessElf());
+
+            if (child.accessElf().equals(Constants.YELLOW)) {
+                elf.assignGifts(child, santa);
+            }
         }
+
 
         return updatedList;
     }

@@ -10,7 +10,6 @@ public class AnnualChanges {
     private ArrayList<Gift> newGifts;
     private ArrayList<Child> newChildren;
     private ArrayList<ChildrenUpdate> childrenUpdates;
-    //!!
     private String strategy;
 
     /**
@@ -85,10 +84,20 @@ public class AnnualChanges {
         this.childrenUpdates = childrenUpdates;
     }
 
+    /**
+     * Getter pentru strategy
+     * @return
+     *      strategia
+     */
     public String getStrategy() {
         return strategy;
     }
 
+    /**
+     * Setter pentru strategy
+     * @param strategy
+     *      strategia
+     */
     public void setStrategy(final String strategy) {
         this.strategy = strategy;
     }

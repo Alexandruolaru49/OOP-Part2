@@ -167,8 +167,11 @@ public final class Updates {
             Double niceScore = childrenUpdates.get(i).getNiceScore();
             ArrayList<Category> giftsPreferences = childrenUpdates.get(i).getGiftsPreferences();
 
+            String newElf = childrenUpdates.get(i).getElf();
+
             for (int j = 0; j < childrenList.size(); j++) {
                 if (childrenList.get(j).getId() == id) {
+                    childrenList.get(j).setElf(newElf);
                     if (niceScore != null) {
                         ArrayList<Double> newNiceScoreHistory = new ArrayList<>();
                         newNiceScoreHistory = childrenList.get(j).getNiceScoreHistory();
